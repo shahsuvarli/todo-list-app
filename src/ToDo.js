@@ -15,16 +15,18 @@ class ToDo extends Component {
     };
   }
   addItem() {
-    let newToDoList = [
-      ...this.state.toDoList,
-      {
-        id: this.state.id + 1,
-        text: this.newItem.current.value,
-        isEdit: false,
-      },
-    ];
-    this.newItem.current.value = "";
-    this.setState({ id: this.state.id + 1, toDoList: newToDoList });
+    if (this.newItem.current.value) {
+      let newToDoList = [
+        ...this.state.toDoList,
+        {
+          id: this.state.id + 1,
+          text: this.newItem.current.value,
+          isEdit: false,
+        },
+      ];
+      this.newItem.current.value = "";
+      this.setState({ id: this.state.id + 1, toDoList: newToDoList });
+    }
   }
   deleteItem(itemId) {
     let newToDoList = this.state.toDoList.filter((item) => item.id !== itemId);
@@ -36,10 +38,14 @@ class ToDo extends Component {
     this.setState({ toDoList: this.state.toDoList });
   }
   saveItem(newValue, itemId) {
-    let objIndex = this.state.toDoList.findIndex((item) => item.id === itemId);
-    this.state.toDoList[objIndex].isEdit = false;
-    this.state.toDoList[objIndex].text = newValue;
-    this.setState({ toDoList: this.state.toDoList });
+    if (newValue) {
+      let objIndex = this.state.toDoList.findIndex(
+        (item) => item.id === itemId
+      );
+      this.state.toDoList[objIndex].isEdit = false;
+      this.state.toDoList[objIndex].text = newValue;
+      this.setState({ toDoList: this.state.toDoList });
+    }
   }
   render() {
     return (
